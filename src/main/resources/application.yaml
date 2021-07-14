@@ -1,21 +1,19 @@
 server:
-  port: 8081
+  port: ${PORT:8081}
 spring:
   application:
     name: spring-boot-api-gateway-demo
   cloud:
     gateway:
       routes:
-        id: spring-boot-kafka-producer-demo
-        uri: lb://
-        predicates:
-          /kafka/**
+        - id: spring-boot-eureka-client-demo
+          uri: lb://spring-boot-eureka-client-demo
+          predicates:
+            - Path=/greetings/**
 
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
-    service-url:
-      default-zone: http://localhost:8761/eureka
-  instance:
-    hostname: localhost
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka}
